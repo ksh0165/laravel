@@ -1,10 +1,14 @@
 import {useEffect, useState} from 'react';
 import {useNavigate } from 'react-router-dom';
+import PageNavigation from './PageNavigation';
  
 const Profile = ({LoginStatus,logOut,userInfo,getUserId}) => {
     const navigate = useNavigate();
     const [nweets, setNweets] = useState([]);
     const [nickname, setNickname] = useState(userInfo.nickname);
+    const [limit, setLimit] = useState(10);
+    const [page, setPage] = useState(1);
+    const offset = (page-1)*limit;
     const getNweets = async () =>{
         await fetch("http://localhost:3001/notes")
         .then(res=>{
@@ -59,15 +63,24 @@ const Profile = ({LoginStatus,logOut,userInfo,getUserId}) => {
         }    
     }
 
-    console.log(typeof nweets);
-    console.log(nweets);
     return (
         <>  
             <form onSubmit={onSubmit}>
                 <input type="text" placeholder="Nick Name" value={nickname} onChange={onChange}/>
                 <input type="submit" value="CHANGE" />
             </form>
-            {nweets.map((nweet)=>(
+            {/* {nweets.map((nweet)=>(
+                <div key={nweet.id}>
+                {nweet.text}
+                {nweet.username}
+                {nweet.filename}
+                {new Date(nweet.createAt).toLocaleDateString("en-GB",{
+                    hour: "2-digit",
+                    minute: "2-digit"
+                })}
+                </div>
+            ))} */}
+            {nweets.slice(offset,offset+limit).map((nweet)=>(
                 <div key={nweet.id}>
                 {nweet.text}
                 {nweet.username}
@@ -78,6 +91,7 @@ const Profile = ({LoginStatus,logOut,userInfo,getUserId}) => {
                 })}
                 </div>
             ))}
+            <PageNavigation total={nweets.length} limit={limit} page={page} setPage={setPage} />
             <button onClick={()=>{
                 LoginStatus(false);
                 logOut();
