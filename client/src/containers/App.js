@@ -8,7 +8,7 @@ import {useState} from "react";
 //concurrently nodemon
 //json-server-auth jsonwebtoken path body-parser
 // npm install htpp-proxy-middleware --save
-function App () {
+function App (props) {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userInfo,setUserInfo] = useState([]);
     const LoginStatus = (isLog) =>{

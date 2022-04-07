@@ -9,6 +9,7 @@ import PostListPage from '../pages/PostListPage';
 import RegisterPage from '../pages/RegisterPage';
 import WritePage from '../pages/WritePage';
 import PostPage from '../pages/PostPage';
+import './Router.css';
 
 const AppRouter = ({isLoggedIn, LoginStatus,getUserId,userInfo,logOut}) => {
     return (
@@ -19,14 +20,15 @@ const AppRouter = ({isLoggedIn, LoginStatus,getUserId,userInfo,logOut}) => {
                     <>
                         <Route path="/" element={[<Home userInfo={userInfo}/> ,<PostListPage />]}/>
                         <Route path="/profile" element={<Profile LoginStatus={LoginStatus} logOut={logOut} userInfo={userInfo} getUserId={getUserId} />}/> 
-                        {/* <Route path="/" element={<PostListPage />} exact /> */}
-                        <Route path="/register" element={<RegisterPage />} />
                         <Route path="/write" element={<WritePage />} />
-                        {/* <Route path="/@:username/:postId" element={<PostPage />} />
-                        <Route path="/@:username" element={<PostListPage />} exact /> */}
+                        <Route path="/@:username/:postId" element={<PostPage />} />
+                        <Route path="/@:username" element={<PostListPage />} exact /> 
                     </>
                 ):(
-                    <Route path="/"element={<LoginPage LoginStatus={LoginStatus} getUserId={getUserId}/>}/>
+                    <>
+                        <Route path="/"element={<LoginPage LoginStatus={LoginStatus} getUserId={getUserId}/>}/>
+                        <Route path="/register" element={<RegisterPage />} />
+                    </>
                 )}
                 <Route path="*" element={<EmptyPage />}/>
             </Routes>
